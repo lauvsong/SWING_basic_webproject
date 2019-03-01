@@ -1,0 +1,74 @@
+﻿<?php	
+	session_start();
+	$con=mysqli_connect("localhost", "hyesong", "1234", "hyesong_db") or die(mysqli_error());
+?>
+<head><link rel="stylesheet" href="top.css"></head>
+<body style="background-color:#ff4d4d">
+<div class="topnav">
+	<font class="a" color="white" size="10"><b>Miraculous</b> Ladybug</font>
+		<div class="active"; style="background-color:black"; height="10">	
+			<a href="hyesong.html">About</a>
+		<?php
+			if (!$_SESSION['id']){
+				echo "<a href='login.php'>login</a>";
+			    echo "<a href='join_mysql.html'>join</a>";
+			}
+			else
+				echo "<a href='logout.php'>logout</a>";
+		?>
+		<a href="board.html?i=0">board</a>
+		</div></div><br>
+<table width="700" border="1" cellpadding="10" align="center">
+	<tr>
+		<td>번호</td>
+		<td>제목</td>
+		<td>이름</td>
+		<td>작성일</td>
+		<td>edit</td>
+		<td>del</td>
+		<td>view</td>
+	</tr>
+	
+	<?php
+	$i=$_GET['i'];
+	$query3="select * from memo limit $i,10";
+	$query4="alter table memo auto_increment=1;";
+	$query5="set @cnt=0;";
+	$query6="update memo set memo.num= @cnt:=@cnt+1;";
+	mysqli_query($con, $query4);
+	mysqli_query($con, $query5);
+	mysqli_query($con, $query6);
+	$done=mysqli_query($con,$query3);
+		while($row=mysqli_fetch_array($done))
+		{
+		$aa=$row[num];
+			echo "<tr>
+					<td>$row[num]</td>
+					<td><a href=\"pass.php?idx=$aa \">$row[title]</a></td>";
+			echo "<td>$row[name]</td>
+					<td>$row[date]</td>
+					<td><a href='edit.php?idx=$aa'>수정</a></td>
+					<td><a href='delete.php?idx=$aa'>삭제</a></td>
+					<td>$row[view]</td>
+				</tr>";
+		}
+	?>
+</table>
+<br>
+	<center>
+	<?php 
+		$all="select * from memo";
+		$result=mysqli_query($con, $all) or die("Query Error");
+		$page=mysqli_num_rows($result)/10;
+		for($j=0;$j<ceil($page);$j++){
+			$k=$j*10;
+			$n=$j+1;
+			echo "<a href='board.html?i=$k'><font size='5'>$n </font></a>";
+		}
+		
+		$idx=mysqli_num_rows($result)+1;
+		echo "<br><a href='memo.html?idx=$idx'><font size='5'>글쓰기</font></a>";
+	?>
+	</center>
+	<?mysqli_close($con)?>
+</body>

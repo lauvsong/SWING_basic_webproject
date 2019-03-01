@@ -1,0 +1,26 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<title>swing web study</title>
+		<script language="javascript">
+		function sign(){
+		if (document.form.pass.value == false)
+				alert("비밀번호를 입력하세요");
+		}
+		</script>
+	</head>
+	<body>
+		<center>
+		<form name="form" method="get" action="info.php">
+		<font size="7"><br>회원가입<br><br></font></body>
+		이름: <input type="text" name="id" size="10"><br>
+		비밀번호: <input type="password" name="pass" size="10"><br>
+		성별: 남<input type="radio" name="male" checked> 여<input type="radio" name="female"><br>
+		취미: 독서<input type="checkbox" name="book"> 음악감상<input type="checkbox" name="music"> 걷기<input type="checkbox" name="walk"><br><br>
+		
+		<input type="submit" value="회원가입" onclick=sign()>
+		<input type="reset" value="취소">
+		</form>
+		</center>
+	</body>
+	</html>

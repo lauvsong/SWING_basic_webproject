@@ -1,0 +1,42 @@
+﻿<?php
+	session_start();
+	
+	if (!$_SESSION['id']){
+		echo "<script>alert('권한이 없습니다'); history.back()</script>";
+		exit;}
+?>
+<!DOCTYPE html>
+<html>
+<head><link rel="stylesheet" href="top.css"></head>
+	<body style="background-color:#ff4d4d">
+	<div class="topnav">
+	<font class="a" color="white" size="10"><b>Miraculous</b> Ladybug</font>
+		<div class="active"; style="background-color:black"; height="10">	
+			<a href="hyesong.html">About</a>
+		<?php
+			if (!$_SESSION['id']){
+				echo "<a href='login.php'>login</a>";
+			    echo "<a href='join_mysql.html'>join</a>";
+			}
+			else
+				echo "<a href='logout.php'>logout</a>";
+		?>
+		<a href="board.html?i=0">board</a>
+		</div></div><br>
+		<? $idx=$_GET['idx'];
+		echo "<form name='form' method='post' action='save.php?idx=$idx' enctype='multipart/form-data'>"
+		?>
+		<table>
+			<tr><td>작성자</td><td><input type="text" name="writer" value="<?echo $_SESSION['id']?>"></td></tr>
+			<tr><td>닉네임</td>
+			<td><input type="text" name="name" size="10" autofocus><br></td></tr>
+			<tr><td>파일</td><td><input type="file" name="myfile"></td></tr>
+			<tr><td>제목</td><td><input type="text" name="title" size="10"><br></td></tr>
+			<tr><td>내용</td> <td><textarea name="content" cols="30" rows="10"></textarea></td></tr>
+			<tr><td>비밀번호</td> <td><input type="password" name="pass" size="10"></td></tr>
+		</table>
+		<br>
+		<input type="submit" value="저장">
+		</form>
+	</body>
+</html>

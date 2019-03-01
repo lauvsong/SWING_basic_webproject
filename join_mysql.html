@@ -1,0 +1,46 @@
+﻿<!DOCTYPE html>
+<?php
+	session_start();
+?>
+	<head>
+		<title>swing web study</title>
+		<link rel="stylesheet" href="top.css">
+		<script>
+			function checkid(){
+				var userid=document.form.id.value;
+				if(userid)
+				{
+					url="checkid.php?userid="+userid;
+					window.open(url, "checkid", "width=300, height=100");
+				}
+				else alert("아이디를 입력하세요");
+			}
+		</script>
+	</head>
+	<body style="background-color:#ff4d4d">
+	<div class="topnav">
+	<font class="a" color="white" size="10"><b>Miraculous</b> Ladybug
+		<div class="active"; style="background-color:black"; height="10">	
+			<a href="hyesong.html">About</a>
+		<?php
+			if (!$_SESSION['id']){
+				echo "<a href='login.php'>login</a>";
+			    echo "<a href='join_mysql.html'>join</a>";
+			}
+			else
+				echo "<a href='logout.php'>logout</a>";
+		?>
+		<a href="board.html?i=0">board</a>
+	</div></div><br>
+		<form name="form" method="post" action="judge.php">
+			<font size="5">아이디: <input type="text" name="id" size="10" autofocus> <input type="button" value="중복확인" onclick=checkid()><br>
+			비밀번호: <input type="password" name="pass" size="10"><br>
+			성별: 남<input type="radio" name="gender" value="남" checked> 여<input type="radio" name="gender" value="여"><br>
+		    취미: 독서<input type="checkbox" name="check[]" value="독서"> 
+			음악감상<input type="checkbox" name="check[]" value="음악감상"> 
+			걷기 </font><input type="checkbox" name="check[]" value="걷기"><br><br>
+			<input type="submit" value="회원가입">
+			<input type="reset" value="취소">
+		</form>
+	</body>
+</html>

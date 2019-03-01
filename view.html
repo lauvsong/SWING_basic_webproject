@@ -1,0 +1,77 @@
+﻿<!DOCTYPE html>
+<?php
+	session_start();
+?>
+<html>
+	<head>
+		<title>swing web study</title>
+		<link rel="stylesheet" href="top.css">
+	</head>
+	<body style="background-color:#ff4d4d">
+	<div class="topnav">
+	<font class="a" color="white" size="10"><b>Miraculous</b> Ladybug</font>
+		<div class="active"; style="background-color:black"; height="10">	
+			<a href="hyesong.html">About</a>
+		<?php
+			if (!$_SESSION['id']){
+				echo "<a href='login.php'>login</a>";
+			    echo "<a href='join_mysql.html'>join</a>";
+			}
+			else
+				echo "<a href='logout.php'>logout</a>";
+		?>
+		<a href="board.html?i=0">board</a>
+		</div></div><br>
+<?php
+	$con=mysqli_connect("localhost", "hyesong", "1234", "hyesong_db") or die(mysqli_error());
+?>
+
+		<?php
+		$idx=$_GET['idx'];
+		$query2="update memo set view=view+1 where num=$idx";
+		mysqli_query($con, $query2);
+		$query="select * from memo where num=$idx";
+			$result=mysqli_query($con, $query)or die("Querry error");
+			$arr=mysqli_fetch_array($result);
+			echo "<table>
+				<tr>
+					<td>글 번호: $arr[num]</td> <td>조회수: $arr[view]</td>
+				</tr>
+				<tr>
+					<td>작성자: $arr[name]</td>
+				</tr>
+				<tr>
+					<td>작성 시간: $arr[date]</td>
+				</tr>
+				<tr>
+					<td>제목: $arr[title]</td>
+				</tr>
+				<tr>
+					<td>내용: $arr[text]</td>
+				</tr>
+				<tr>";
+			if($arr[file]){
+				echo "<td>파일: <a href='download.php?filename=$arr[file]'>$arr[file]</a></td>
+				</tr></table>";
+			}
+		?>
+		<? if($_SESSION['id']){?>
+		<table><hr>댓글<br>
+			<form method="post" action="comment.php?idx=<?echo $idx;?>">
+				<tr><td>작성자: <?echo $_SESSION['id'];?></td></tr>
+				<tr><td>내용: <textarea name="comment" cols="50" rows="10"></textarea><input type="submit" value="작성"></td></tr>
+				</form></table>
+		<? } ?>
+		<? $comment_query="select * from comment where bnum=$idx";
+			$result=mysqli_query($con, $comment_query);
+			while($array=mysqli_fetch_array($result)){
+				echo "<hr><br><table>
+					<tr>
+					<td>작성자: $array[id]</td>
+					</tr>
+					<tr>
+					<td>$array[text]</td></tr></table>";
+					};
+			?>
+		</table>
+</html>
